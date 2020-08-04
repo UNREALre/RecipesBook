@@ -1,0 +1,13 @@
+<ul>
+    <li><a href="/" title="{{ _('Главная') }}">{{ _('Главная') }}</a></li>
+    <li><a href="{{ url_for('public.recipes') }}" title="{{ _('Рецепты') }}">{{ _('Рецепты') }}</a></li>
+    {# <li><a href="{{ url_for('public.bot') }}" title="{{ _('Бот') }}">{{ _('Бот') }}</a></li> #}
+    <li><a href="{{ url_for('public.contacts') }}" title="{{ _('Контакты') }}">{{ _('Контакты') }}</a></li>
+    <li><a href="{{ url_for('public.search') }}" title="{{ _('Найти рецепт') }}">{{ _('Найти рецепт') }}</a></li>
+    {% if current_user.is_anonymous %}
+        <li><a href="{{ url_for('public.login') }}" title="{{ _('Вход') }}">{{ _('Вход') }}</a></li>
+        <li><a href="{{ url_for('public.register') }}" title="{{ _('Регистрация') }}">{{ _('Регистрация') }}</a></li>
+    {% else %}
+        <li><a href="{{ url_for('public.logout') }}" title="{{ _('Выход') }}">{{ _('Выход') }}</a></li>
+    {% endif %}
+</ul>

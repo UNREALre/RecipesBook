@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!--wrap-->
+    <div class="wrap clearfix">
+        {% include '_breadcrumbs.html' %}
+
+        <!--content-->
+        <section class="content profile-content">
+            <!--row-->
+            <div class="row">
+                <!--profile left part-->
+                <div class="my_account one-fourth">
+                    <figure>
+                        <img src="{{ url_for('public.static', filename='images/avatar.jpg') }}" alt="" />
+                    </figure>
+                    <div class="container">
+                        <h2>{{ user.username}}</h2>
+                    </div>
+                </div>
+                <!--//profile left part-->
+
+                <div class="three-fourth">
+                    <nav class="tabs">
+                        <ul>
+                            <li class="active"><a href="#about" title="{{ _('Обо мне') }}">{{ _('Обо мне') }}</a></li>
+                            <li><a href="#recipes" title="{{ _('Мои рецепты') }}">{{ _('Мои рецепты') }}</a></li>
+                            <li><a href="#favorites" title="{{ _('Избранное') }}">{{ _('Избранное') }}</a></li>
+                        </ul>
+                    </nav>
+
+                    <!--about-->
+                    <div class="tab-content" id="about">
+                        <div class="row">
+                            <dl class="basic two-third">
+                                <dt>{{ _('Логин') }}</dt>
+                                <dd>{{ user.username }}</dd>
+                                {#
+                                <dt>{{ _('Любимая кухня') }}</dt>
+                                <dd>Thai, Mexican</dd>
+                                <dt>{{ _('Любимые специи') }}</dt>
+                                <dd>Chilli, Oregano, Basil</dd>
+                                 #}
+                                <dt>{{ _('Рецептов добавлено') }}</dt>
+                                <dd>{{ user.recipes()|length }}</dd>
+                                <dt>{{ _('Лайков получено') }}</dt>
+                                <dd>0</dd>
+                            </dl>
+
+                            <div class="one-third">
+                                <ul class="boxed gold">
+                                    <li class="light"><a href="#" title="{{ _('Топовый рецепт') }}"><i class="icon icon-themeenergy_crown"></i> <span>{{ _('Топовый рецепт') }}</span></a></li>
+                                    <li class="medium"><a href="#" title="{{ _('В десятке лучших') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('В десятке лучших') }}</span></a></li>
+                                    <li class="dark"><a href="#" title="{{ _('Первый рацепт') }}"><i class="icon  icon-themeenergy_medal-first-place"></i> <span>{{ _('Первый рацепт') }}</span></a></li>
+
+                                    <li class="dark"><a href="#" title="{{ _('10+ рецептов') }}"><i class="icon icon-themeenergy_medal-8"></i> <span>{{ _('10+ рецептов') }}</span></a></li>
+                                    <li class="medium"><a href="#" title="{{ _('Рецепт на главной') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('Рецепт на главной') }}</span></a></li>
+                                    {#
+                                    <li class="dark"><a href="recipes.html" title="Fish"><i class="icon icon-themeenergy_cup2"></i> <span>Won a contest</span></a></li>
+                                    <li class="light"><a href="recipes.html" title="Healthy"><i class="icon icon-themeenergy_share3"></i> <span>Shared a recipe</span></a></li>
+                                    <li class="dark"><a href="recipes.html" title="Events"><i class="icon icon-themeenergy_pencil"></i> <span>Wrote a blog post</span></a></li>
+                                    <li class="light"><a href="recipes.html" title="Fish"><i class="icon icon-themeenergy_chat-bubbles"></i> <span>Wrote a comment</span></a></li>
+                                     #}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//about-->
+
+                    <!--my recipes-->
+                    {% with recipes=user.recipes(), tab_name="recipes" %}
+                        {% include '_recipes.html' %}
+                    {% endwith %}
+                    <!--//my recipes-->
+
+
+                    <!--my favorites-->
+                    {% with recipes=user.favourites(), tab_name="favorites" %}
+                        {% include '_recipes.html' %}
+                    {% endwith %}
+                    <!--//my favorites-->
+
+                </div>
+            </div>
+            <!--//row-->
+        </section>
+        <!--//content-->
+    </div>
+    <!--//wrap-->
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    $("document").ready(function(){
+        if (window.location.hash === "#recipes") {
+            $("nav.tabs li").eq(1).find("a").trigger("click");
+        }
+    });
+    </script>
+{% endblock %}

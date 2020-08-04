@@ -1,0 +1,14 @@
+flask
+flask-wtf
+flask-babel
+flask-mail
+flask-login
+wheel
+flask-mongoengine
+mongoengine
+wtforms
+confuse
+email-validator
+click
+werkzeug
+nltk

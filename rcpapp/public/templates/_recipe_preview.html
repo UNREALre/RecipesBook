@@ -1,0 +1,33 @@
+<!--item-->
+<div class="entry {{ item_class if item_class else 'one-third' }}">
+    <figure>
+        {% if recipe.picture %}
+            <img src="{{ url_for('public.recipe_pic', file_id=recipe.picture._id) }}" alt="{{ recipe.title }}" />
+        {% else %}
+            <img src="{{ url_for('public.static', filename='images/recipe.jpg') }}" alt="{{ recipe.title }}" />
+        {% endif %}
+        <figcaption>
+            <a href="{{ url_for('public.recipe', recipe_id=recipe.id) }}">
+                <i class="icon icon-themeenergy_eye2"></i> <span>{{ _('Перейти к рецепту') }}</span>
+            </a>
+        </figcaption>
+    </figure>
+    <div class="container">
+        <h2>
+            <a href="{{ url_for('public.recipe', recipe_id=recipe.id) }}">
+                {{ recipe.title }}
+            </a>
+        </h2>
+        <div class="actions">
+            <div>
+                <div class="difficulty">
+                    <i class="ico i-{{ get_recipe_difficulty(recipe.difficulty, True) }}"></i>
+                    {{ get_recipe_difficulty(recipe.difficulty) }}
+                </div>
+                <div class="likes"><i class="fa fa-heart"></i>{{ recipe.likes|length }}</div>
+                {# <div class="comments"><i class="fa fa-comment"></i><a href="recipe.html#comments">27</a></div> #}
+            </div>
+        </div>
+    </div>
+</div>
+<!--item-->

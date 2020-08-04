@@ -1,0 +1,25 @@
+			<nav class="main-nav" role="navigation" id="menu">
+				<ul>
+					<li class="{{'current-menu-item' if request.endpoint == 'public.index' else '' }}"><a href="/" title="{{ _('Главная') }}"><span>{{ _('Главная') }}</span></a></li>
+					<li class="{{'current-menu-item' if request.endpoint == 'public.recipes' else '' }}"><a href="{{ url_for('public.recipes') }}" title="{{ _('Рецепты') }}"><span>{{ _('Рецепты') }}</span></a>
+                        {#
+						<ul>
+							<li><a href="recipes2.html" title="Recipes 2">Recipes 2</a></li><li><a href="recipe.html" title="Recipe">Recipe</a></li>
+						</ul>
+                         #}
+					</li>
+					{# <li class="{{'current-menu-item' if request.endpoint == 'public.bot' else '' }}"><a href="{{ url_for('public.bot') }}" title="{{ _('Бот') }}"><span>{{ _('Бот') }}</span></a></li> #}
+                    <li class="{{'current-menu-item' if request.endpoint == 'public.contacts' else '' }}"><a href="{{ url_for('public.contacts') }}" title="{{ _('Контакты') }}"><span>{{ _('Контакты') }}</span></a></li>
+				</ul>
+			</nav>
+
+			<nav class="user-nav" role="navigation">
+				<ul>
+                    {% if not current_user.is_anonymous %}
+                        <li class="dark"><a href="{{ url_for('public.logout') }}" title="{{ _('Выход') }}"><i class="icon icon-themeenergy_xls-extract"></i> <span>{{ _('Выход') }}</span></a></li>
+                    {% endif %}
+					<li class="light"><a href="{{ url_for('public.search') }}" title="{{ _('Поиск рецепта') }}"><i class="icon icon-themeenergy_search"></i> <span>{{ _('Поиск рецепта') }}</span></a></li>
+					<li class="medium"><a href="{{ url_for('public.profile') }}" title="{{ _('Мой профиль') }}"><i class="icon icon-themeenergy_chef-hat"></i> <span>{{ _('Мой профиль') }}</span></a></li>
+					<li class="dark"><a href="{{ url_for('public.new_recipe') }}" title="{{ _('Добавить рецепт') }}"><i class="icon icon-themeenergy_fork-spoon"></i> <span>{{ _('Добавить рецепт') }}</span></a></li>
+				</ul>
+			</nav>

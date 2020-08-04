@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!--wrap-->
+    <div class="wrap clearfix">
+
+        {% with %}
+            {% set pages = [{
+                'name': _('Все рецепты'),
+                'url': url_for('public.recipes')
+            }] if current_category or user else [] %}
+            {% include '_breadcrumbs.html' %}
+        {% endwith %}
+
+        <!--row-->
+        <div class="row">
+            <header class="s-title">
+                <h1>{{ seo.title }}</h1>
+            </header>
+
+            <aside class="above-sidebar full-width">
+                <ul class="boxed">
+                    {% for category in categories %}
+                        <li class="
+                            {{ get_category_class(loop.index) }}
+                            {{ 'active' if current_category and url_for('public.recipes_by_category', slug=current_category.slug) == url_for('public.recipes_by_category', slug=category.slug) }}
+                        ">
+                            <a href="{{ url_for('public.recipes_by_category', slug=category.slug) }}"
+                               title="{{ category.name }}"
+                            >
+                                <i class="icon {{ category.icon }}"></i> <span>{{ category.name }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </aside>
+
+            <!--content-->
+            <section class="content full-width">
+                <!--entries-->
+                <div class="entries row">
+                    {% for recipe in recipes.items %}
+                        {% with item_class='one-fourth' %}
+                            {% include '_recipe_preview.html' %}
+                        {% endwith %}
+                        {% if loop.index % 4 == 0 %}</div><div class="entries row">{% endif %}
+                    {% endfor %}
+
+                    <div class="quicklinks">
+                        {{ pg.render_navigation(recipes, 'public.recipes') }}
+                    </div>
+                </div>
+                <!--//entries-->
+            </section>
+            <!--//content-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//wrap-->
+{% endblock %}

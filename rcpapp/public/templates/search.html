@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!--wrap-->
+    <div class="wrap clearfix">
+        {% include '_breadcrumbs.html' %}
+
+        <!--row-->
+        <div class="row">
+            <header class="s-title">
+                <h1>{{ _('Поиск рецепта') }}</h1>
+            </header>
+
+            <!--content-->
+            <section class="content full-width">
+                <!--recipefinder-->
+                <div class="container recipefinder">
+                    <div class="">
+                        <form method="GET" action="">
+                            {{ form.hidden_tag() }}
+                            {#
+                            <div class="ingredients">
+                                <h3>{{ _('Поиск по ингредиентам') }}</h3>
+                                <a href="#" class="button gold">Olive oil</a><a href="#" class="button gold">Parsley</a><a href="#" class="button gold">Tomato</a><a href="#" class="button gold">Olive oil</a><a href="#" class="button gold">Parsley</a><a href="#" class="button gold">Tomato</a><a href="#" class="button gold">Parsley</a><a href="#" class="button gold">Tomato</a><a href="#" class="button gold">Olive oil</a><a href="#" class="button gold">Parsley</a><a href="#" class="button gold">Tomato</a>
+                            </div>
+                            #}
+
+                            <h3>{{ _('Параметры поиска') }}</h3>
+                            <div class="row">
+                                <div class="search one-half">
+                                    {{ form.keyword(placeholder=form.keyword.label.text, value=keyword) }}
+                                    {{ form.submit() }}
+                                </div>
+
+                                <div class="one-half">
+                                    {% set default = form.category.process_data(category) %}
+                                    {{ form.category(class='js--search-by-cat', value=category) }}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--//recipefinder-->
+
+                <!--results-->
+                <div class="entries row">
+                    {% for recipe in recipes.items %}
+                        {% with item_class='one-fourth' %}
+                            {% include '_recipe_preview.html' %}
+                        {% endwith %}
+                        {% if loop.index % 4 == 0 %}</div><div class="entries row">{% endif %}
+                    {% else %}
+                        <div class="entry"><div class="container">
+                            <div class="no-recipes">{{ _('Извините, по вашему запросу не найдено ни одного рецепта.') }}</div>
+                        </div></div>
+                    {% endfor %}
+
+                    <div class="quicklinks">
+                        {{ pg.render_navigation(recipes, 'public.recipes') }}
+                    </div>
+                </div>
+                <!--//results-->
+            </section>
+            <!--//content-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//wrap-->
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    $("document").ready(function(){
+        $(".js--search-by-cat").on("change", function(e){
+            $(this).parents("form").find("#submit").trigger("click");
+        });
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,21 @@
+<div class="widget members">
+    <h3>{{ _('Наши пользователи') }}</h3>
+    <div id="members-list-options" class="item-options">
+      <a href="#">{{ _('Самый новый') }}</a>
+      <a href="#">{{ _('Популярный') }}</a>
+    </div>
+    <ul class="boxed">
+        <li><div class="avatar">
+            <a href="{{ url_for('public.recipes_by_author', author_id=latest_user.id) }}">
+                <img src="{{ url_for('public.static', filename='images/avatar.jpg') }}" alt="{{ latest_user.username }}" />
+                <span>{{ latest_user.username }}</span>
+            </a>
+        </div></li>
+        <li><div class="avatar">
+            <a href="{{ url_for('public.recipes_by_author', author_id=top_user.id) }}">
+                <img src="{{ url_for('public.static', filename='images/avatar.jpg') }}" alt="{{ top_user.username }}" />
+                <span>{{ top_user.username }}</span>
+            </a>
+        </div></li>
+    </ul>
+</div>

@@ -1,0 +1,18 @@
+{# Macro for creating navigation links #}
+{% macro render_navigation(pagination, endpoint) %}
+    {% if pagination.has_next or pagination.has_prev %}
+        <div class="pagination">
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        <a href="{{ url_for(endpoint, page=page) }}" class="button">{{ page }}</a>
+                    {% else %}
+                        <strong class="button">{{ page }}</strong>
+                    {% endif %}
+                {% else %}
+                    <span class="ellipsis">…</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}

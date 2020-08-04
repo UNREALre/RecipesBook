@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="{{ seo.keywords if seo and seo.keywords else _('Рецептуарий') }}" />
+	<meta name="description" content="{{ seo.description if seo and seo.description else _('Рецептуарий') }}">
+
+	<title>{{ seo.title if seo and seo.title else _('Рецептуарий') }}</title>
+
+	<link rel="stylesheet" href="{{ url_for('public.static', filename='css/style.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('public.static', filename='css/icons.css') }}" />
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,800" rel="stylesheet">
+	<script src="{{ url_for('public.static', filename='js/fawesome.js') }}"></script>
+	<link rel="shortcut icon" href="{{ url_for('public.static', filename='images/favicon.ico') }}" />
+
+    <!-- jQuery Modal -->
+    <link rel="stylesheet" href="{{ url_for('public.static', filename='css/jquery.modal.min.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('public.static', filename='css/custom.css',
+    v=times[url_for('public.static', filename='css/custom.css')[1:]]) }}" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="{{ url_for('public.static', filename='js/html5shiv.js') }}"></script>
+	  <script src="{{ url_for('public.static', filename='js/respond.min.js') }}"></script>
+	<![endif]-->
+</head>
+<body class="{% if request.endpoint == 'public.index' %}home{% endif %}">
+    {% import 'macros/form_error.html' as error %}
+    {% import 'macros/paginator.html' as pg %}
+
+	<!--preloader-->
+	<div class="preloader">
+		<div class="spinner"></div>
+	</div>
+	<!--//preloader-->
+
+	<!--header-->
+	<header class="head" role="banner">
+		<!--wrap-->
+		<div class="wrap clearfix">
+			<a href="/" title="Рецептуарий" class="logo"><img src="{{ url_for('public.static', filename='images/ico/logo.png') }}" alt="SocialChef logo" /></a>
+
+            {% include '_menu.html' %}
+		</div>
+		<!--//wrap-->
+	</header>
+	<!--//header-->
+
+	<!--main-->
+	<main class="main" role="main">
+
+        {% set flash_messages = get_flashed_messages() %}
+        {% if flash_messages %}
+                {% for message in flash_messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+        {% endif %}
+
+        {% block body %}{% endblock %}
+
+	</main>
+	<!--//main-->
+
+	<!--footer-->
+	<footer class="foot" role="contentinfo">
+		<div class="wrap clearfix">
+			<div class="row">
+				<article class="one-half">
+					<h5>{{ _('О Рецептуарии') }}</h5>
+					<p>{{ _('В первую очередь &laquo;Рецептуарий&raquo; создавался для того, чтобы быть удобным местом для хранения
+					ваших рецептов. Во вторую очередь - для того, чтобы делиться рецептами с другими, пробовать и экспериментировать на кухне!') }}</p>
+				</article>
+				<article class="one-fourth">
+					<h5>Для связи</h5>
+					<p><em>E:</em>  <a href="mailto:avpmanager@gmail.com">avpmanager@gmail.com</a></p>
+				</article>
+                {#
+				<article class="one-fourth">
+					<h5>Follow us</h5>
+					<ul class="social">
+						<li><a href="#" title="facebook"><i class="fa fa-fw fa-facebook"></i></a></li>
+						<li><a href="#" title="youtube"><i class="fa  fa-fw fa-youtube"></i></a></li>
+						<li><a href="#" title="rss"><i class="fa  fa-fw fa-rss"></i></a></li>
+						<li><a href="#" title="gplus"><i class="fa fa-fw fa-google-plus"></i></a></li>
+						<li><a href="#" title="linkedin"><i class="fa fa-fw fa-linkedin"></i></a></li>
+						<li><a href="#" title="twitter"><i class="fa fa-fw fa-twitter"></i></a></li>
+						<li><a href="#" title="pinterest"><i class="fa fa-fw fa-pinterest-p"></i></a></li>
+						<li><a href="#" title="vimeo"><i class="fa fa-fw fa-vimeo"></i></a></li>
+					</ul>
+				</article>
+                #}
+
+				<div class="bottom">
+					<p class="copy">&copy; 2020{% if now.year != 2020 %} - {{ now.year }}{% endif %}</p>
+
+					<nav class="foot-nav">
+                        {% include '_footer_menu.html' %}
+					</nav>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!--//footer-->
+
+    {% include '_modals.html' %}
+
+	<script src="{{ url_for('public.static', filename='js/jquery-3.1.0.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/jquery.uniform.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/jquery.slicknav.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/scripts.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/home.js') }}"></script>
+
+    <!-- jQuery Modal -->
+    <script src="{{ url_for('public.static', filename='js/jquery.modal.min.js') }}"></script>
+
+    <script src="{{ url_for('public.static', filename='js/custom.js', v=times[url_for('public.static', filename='js/custom.js')[1:]]) }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+
+

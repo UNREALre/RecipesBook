@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!--wrap-->
+    <div class="wrap clearfix">
+        {% with %}
+            {% set pages = [{
+                'name': _('Все рецепты'),
+                'url': url_for('public.recipes')
+            }] %}
+            {% include '_breadcrumbs.html' %}
+        {% endwith %}
+
+        <!--row-->
+        <div class="row">
+            <header class="s-title">
+                <h1>{{ recipe.title }}</h1>
+            </header>
+            <!--content-->
+            <section class="content three-fourth recipe-wrapper">
+                <!--recipe-->
+                    <div class="recipe">
+                        <div class="row">
+                            <!--two-third-->
+                            <article class="two-third">
+                                <div class="image">
+                                    {% if recipe.picture %}
+                                        <img src="{{ url_for('public.recipe_pic', file_id=recipe.picture._id) }}" alt="{{ recipe.title }}" />
+                                    {% else %}
+                                        <img src="{{ url_for('public.static', filename='images/recipe.jpg') }}" alt="{{ recipe.title }}" />
+                                    {% endif %}
+                                </div>
+                                <div class="intro">
+                                    {{ recipe.description|nl2br }}
+                                </div>
+                            {#
+                                <div class="instructions">
+                                    <ol>
+                                        <li>Heat oven to 160C/140C fan/gas 3 and line a 12-hole muffin tin with cases. Gently melt the butter, chocolate, sugar and 100ml hot water together in a large saucepan, stirring occasionally, then set aside to cool a little while you weigh the other ingredients.</li>
+                                        <li>Stir the eggs and vanilla into the chocolate mixture. Put the flour into a large mixing bowl, then stir in the chocolate mixture until smooth. Spoon into cases until just over three-quarters full (you may have a little mixture leftover), then set aside for 5 mins before putting on a low shelf in the oven and baking for 20-22 mins. Leave to cool.</li>
+                                        <li>For the icing, melt the chocolate in a heatproof bowl over a pan of barely simmering water. Once melted, turn off the heat, stir in the double cream and sift in the icing sugar. When spreadable, top each cake with some and decorate with your favourite sprinkles and sweets.</li>
+                                    </ol>
+                                </div>
+                            #}
+                            </article>
+                            <!--//two-third-->
+
+                            <!--one-third-->
+                            <article class="one-third">
+                                <dl class="basic">
+                                    <dt>{{ _('Время приготовления') }}</dt>
+                                    <dd>{{ recipe.cooking_time if recipe.cooking_time else _('Не указано') }}</dd>
+                                    <dt>Сложность</dt>
+                                    <dd>{{ get_recipe_difficulty(recipe.difficulty) }}</dd>
+                                </dl>
+
+                                <dl class="user">
+                                    <dt>{{ _('Категория') }}</dt>
+                                    <dd>{{ recipe.category.name }}</dd>
+                                    <dt>{{ _('Автор') }}</dt>
+                                    <dd>{{ recipe.user.username }}</dd>
+                                </dl>
+
+                                {% if recipe.ingredients %}
+                                    <dl class="ingredients">
+                                        {% for item in recipe.ingredients %}
+                                            <dt>{{ item.ingredient.name }}</dt>
+                                            <dd>{{ item.quantity }}</dd>
+                                        {% endfor %}
+                                    </dl>
+                                {% endif %}
+                            </article>
+                            <!--//one-third-->
+                        </div>
+                    </div>
+                    <!--//recipe-->
+
+            </section>
+            <!--//content-->
+
+            <!--right sidebar-->
+            <aside class="sidebar one-fourth recipe-side">
+                <div class="ya-share2 recipe-share js--share-wrapper" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,reddit,viber,whatsapp,skype,telegram"></div>
+                <div class="widget share">
+                    <ul class="boxed">
+                        {% if current_user.id == recipe.user.id %}
+                            <li class="light">
+                                <a href="{{ url_for('public.edit_recipe', recipe_id=recipe.id) }}" title="{{ _('Редактировать') }}">
+                                    <i class="fa icon-themeenergy_pencil"></i> <span>{{ _('Изменить рецепт') }}</span>
+                                </a>
+                            </li>
+                            <li class="medium">
+                                <a href="{{ url_for('public.delete_recipe', recipe_id=recipe.id) }}" title="{{ _('Удалить') }}" class="js--confirm-delete" data-conftext="{{ _('Вы действительно хотите удалить рецепт?') }}">
+                                    <i class="fa icon-themeenergy_delete"></i> <span>{{ _('Удалить рецепт') }}</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="light">
+                                <a href="{{ url_for('public.recipes_by_author', author_id=recipe.user.id) }}" title="{{ _('Рецепты автора') }}">
+                                    <i class="fa icon-themeenergy_file-folder"></i> <span>{{ _('Рецепты автора') }}</span>
+                                </a>
+                            </li>
+                            <li class="medium">
+                                <a href="#" title="{{ _('Поделиться') }}" class="js--share-recipe">
+                                    <i class="fa icon-themeenergy_share-audio"></i> <span>{{ _('Поделиться рецептом') }}</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="dark">
+                            <a href="{{ url_for('public.like_recipe', recipe_id=recipe.id) }}" title="{{ _('В избранное') }}" class="js--add-to-fav">
+                                <i class="fa fa-heart"></i> <span>{{ _('В избранное') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                {% if recipe.likes %}
+                    <div class="widget members">
+                        <h3>{{ _('Добавили в избранное') }}</h3>
+                        <ul class="boxed">
+                            {% for like in recipe.likes %}
+                                <li>
+                                    <div class="avatar">
+                                        <a href="{{ url_for('public.recipes_by_author', author_id=like.user.id) }}">
+                                            <img src="{{ url_for('public.static', filename='images/avatar.jpg') }}" alt="" />
+                                            <span>{{ like.user.username }}</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </aside>
+            <!--//right sidebar-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//wrap-->
+{% endblock %}
+
+{% block scripts %}
+    <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+    <script src="//yastatic.net/share2/share.js"></script>
+{% endblock %}

@@ -1,0 +1,11 @@
+<!--breadcrumbs-->
+<nav class="breadcrumbs">
+    <ul>
+        <li><a href="{{ url_for('public.index') }}" title="{{ _('Главная') }}">{{ _('Главная') }}</a></li>
+        {% for page in pages %}
+            <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+        {% endfor %}
+        <li>{{ seo.title }}</li>
+    </ul>
+</nav>
+<!--//breadcrumbs-->

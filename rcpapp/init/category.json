@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Основые блюда",
+    "icon": "icon-themeenergy_serving-plate3",
+    "slug": "osnovnye-blyuda",
+    "order": 10
+  },
+  {
+    "name": "Выпечка и дессерты",
+    "icon": "icon-themeenergy_cookie-man",
+    "slug": "vypechka-i-desserty",
+    "order": 20
+  },
+  {
+    "name": "Супы",
+    "icon": "icon-themeenergy_soup",
+    "slug": "supy",
+    "order": 30
+  },
+  {
+    "name": "Салаты",
+    "icon": "icon-themeenergy_grass",
+    "slug": "salaty",
+    "order": 40
+  },
+  {
+    "name": "Закуски",
+    "icon": "icon-themeenergy_hot-dog",
+    "slug": "zakuski",
+    "order": 50
+  },
+  {
+    "name": "Завтраки",
+    "icon": "icon-themeenergy_bread",
+    "slug": "zavtraki",
+    "order": 60
+  },
+    {
+    "name": "Паста",
+    "icon": "icon-themeenergy_pasta",
+    "slug": "pasta",
+    "order": 70
+  },
+    {
+    "name": "Соусы и маринады",
+    "icon": "icon-themeenergy_ketchup-2",
+    "slug": "sousy-i-marinady",
+    "order": 80
+  },
+   {
+    "name": "Каши",
+    "icon": "icon-themeenergy_plate2",
+    "slug": "kashi",
+    "order": 90
+  },
+  {
+    "name": "Пицца",
+    "icon": "icon-themeenergy_pizza-slice",
+    "slug": "pizza",
+    "order": 100
+  },
+  {
+    "name": "Коктейли и напитки",
+    "icon": "icon-themeenergy_drink",
+    "slug": "kokteili-napitki",
+    "order": 110
+  }
+]

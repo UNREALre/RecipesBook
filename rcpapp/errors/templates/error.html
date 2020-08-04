@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="" />
+	<meta name="description" content="">
+
+	<title>{{ _('Что-то пошло не так...') }}</title>
+
+	<link rel="stylesheet" href="{{ url_for('public.static', filename='css/style.css') }}" />
+	<link rel="stylesheet" href="{{ url_for('public.static', filename='css/icons.css') }}" />
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,800" rel="stylesheet">
+	<script src="{{ url_for('public.static', filename='js/fawesome.js') }}"></script>
+	<link rel="shortcut icon" href="{{ url_for('public.static', filename='images/favicon.ico') }}" />
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="{{ url_for('public.static', filename='js/html5shiv.js') }}"></script>
+	  <script src="{{ url_for('public.static', filename='js/respond.min.js') }}"></script>
+	<![endif]-->
+</head>
+<body class="{% if request.endpoint == 'public.index' %}home{% endif %}">
+    {% import 'macros/form_error.html' as error %}
+
+	<!--preloader-->
+	<div class="preloader">
+		<div class="spinner"></div>
+	</div>
+	<!--//preloader-->
+
+	<!--header-->
+	<header class="head" role="banner">
+		<!--wrap-->
+		<div class="wrap clearfix">
+			<a href="/" title="Рецептуарий" class="logo"><img src="{{ url_for('public.static', filename='images/ico/logo.png') }}" alt="SocialChef logo" /></a>
+		</div>
+		<!--//wrap-->
+	</header>
+	<!--//header-->
+
+	<!--main-->
+	<main class="main" role="main">
+
+        {% set flash_messages = get_flashed_messages() %}
+        {% if flash_messages %}
+                {% for message in flash_messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+        {% endif %}
+
+    <!--wrap-->
+    <div class="wrap clearfix">
+
+        <section class="content full-width">
+            <div class="container">
+                <h1>Кажется, Ваш блин получился комом :(<br>Ошибка!</h1>
+                {{ content }}
+                <p>&nbsp;</p>
+            </div>
+        </section>
+
+	</main>
+	<!--//main-->
+
+	<script src="{{ url_for('public.static', filename='js/jquery-3.1.0.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/jquery.uniform.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/jquery.slicknav.min.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/scripts.js') }}"></script>
+	<script src="{{ url_for('public.static', filename='js/home.js') }}"></script>
+</body>
+</html>
+
+

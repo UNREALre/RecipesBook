@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block body %}
+		<!--intro-->
+		<div class="intro">
+			<figure class="bg"><img src="{{ url_for('public.static', filename='images/intro.jpg') }}" alt="" /></figure>
+
+			<!--wrap-->
+			<div class="wrap clearfix">
+				<!--row-->
+				<div class="row">
+                    {% include '_intro.html' %}
+
+					<!--search recipes widget-->
+                    {% include '_search_recipe_widget.html' %}
+					<!--//search recipes widget-->
+				</div>
+				<!--//row-->
+			</div>
+			<!--//wrap-->
+		</div>
+		<!--//intro-->
+
+		<!--wrap-->
+		<div class="wrap clearfix">
+			<!--row-->
+			<div class="row">
+				<!--content-->
+				<section class="content three-fourth">
+					<!--cwrap-->
+					<div class="cwrap">
+						<!--entries-->
+						<div class="entries row">
+							<!--featured recipe-->
+							<div class="featured one-third">
+								<header class="s-title">
+									<h2 class="ribbon">{{ _('Рецепт дня') }}</h2>
+								</header>
+								<article class="entry">
+									<figure>
+                                        {% if featured_recipe.picture %}
+                                            <img src="{{ url_for('public.recipe_pic', file_id=featured_recipe.picture._id) }}" alt="{{ featured_recipe.title }}" />
+                                        {% else %}
+                                            <img src="{{ url_for('public.static', filename='images/recipe.jpg') }}" alt="{{ featured_recipe.title }}" />
+                                        {% endif %}
+										<figcaption><a href="{{ url_for('public.recipe', recipe_id=featured_recipe.id) }}"><i class="icon icon-themeenergy_eye2"></i> <span>{{ _('Перейти к рецепту') }}</span></a></figcaption>
+									</figure>
+									<div class="container">
+										<h2><a href="{{ url_for('public.recipe', recipe_id=featured_recipe.id) }}">{{ featured_recipe.title }}</a></h2>
+										<p>{{ featured_recipe.description[:100] }} ... </p>
+										<div class="actions">
+											<div>
+												<a href="{{ url_for('public.recipe', recipe_id=featured_recipe.id) }}" class="button">{{ _('Перейти к рецепту') }}</a>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+							<!--//featured recipe-->
+
+                            <!--top recipe-->
+							<div class="featured one-third">
+								<header class="s-title">
+									<h2 class="ribbon">{{ _('Лучший рецепт') }}</h2>
+								</header>
+								<article class="entry">
+									<figure>
+                                        {% if top_recipe.picture %}
+                                            <img src="{{ url_for('public.recipe_pic', file_id=top_recipe.picture._id) }}" alt="{{ top_recipe.title }}" />
+                                        {% else %}
+                                            <img src="{{ url_for('public.static', filename='images/recipe.jpg') }}" alt="{{ top_recipe.title }}" />
+                                        {% endif %}
+										<figcaption><a href="{{ url_for('public.recipe', recipe_id=top_recipe.id) }}"><i class="icon icon-themeenergy_eye2"></i> <span>{{ _('Перейти к рецепту') }}</span></a></figcaption>
+									</figure>
+									<div class="container">
+										<h2><a href="{{ url_for('public.recipe', recipe_id=top_recipe.id) }}">{{ top_recipe.title }}</a></h2>
+										<p>{{ top_recipe.description[:100] }} ... </p>
+										<div class="actions">
+											<div>
+												<a href="{{ url_for('public.recipe', recipe_id=top_recipe.id) }}" class="button">{{ _('Перейти к рецепту') }}</a>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+                            <!--//top recipe-->
+
+							<!--featured member-->
+							<div class="featured one-third">
+								<header class="s-title">
+									<h2 class="ribbon star">{{ _('Пользователь дня') }}</h2>
+								</header>
+								<article class="entry">
+									<figure>
+										<img src="{{ url_for('public.static', filename='images/avatar.jpg') }}" alt="" />
+										<figcaption><a href="{{ url_for('public.recipes_by_author', author_id=featured_user.id) }}"><i class="icon icon-themeenergy_eye2"></i> <span>{{ _('Все рецепты автора') }}</span></a></figcaption>
+									</figure>
+									<div class="container">
+										<h2><a href="m{{ url_for('public.recipes_by_author', author_id=featured_user.id) }}y_profile.html">{{ featured_user.username }}</a></h2>
+										<div class="actions">
+											<div>
+												<a href="{{ url_for('public.recipes_by_author', author_id=featured_user.id) }}" class="button">{{ _('Все рецепты пользователя') }}</a>
+											</div>
+										</div>
+									</div>
+								</article>
+							</div>
+							<!--//featured member-->
+						</div>
+						<!--//entries-->
+					</div>
+					<!--//cwrap-->
+
+					<!--cwrap-->
+					<div class="cwrap">
+						<header class="s-title">
+							<h2 class="ribbon bright">{{ _('Новинки') }}</h2>
+						</header>
+
+						<!--entries-->
+						<div class="entries row">
+                            {% for recipe in recipes %}
+                                {% include '_recipe_preview.html' %}
+                                {% if loop.index % 3 == 0 %}</div><div class="entries row">{% endif %}
+                            {% endfor %}
+						</div>
+						<!--//entries-->
+					</div>
+					<!--//cwrap-->
+
+				</section>
+				<!--//content-->
+
+
+				<!--right sidebar-->
+				<aside class="sidebar one-fourth">
+					<div class="widget">
+						<h3>{{ _('Категории') }}</h3>
+						<ul class="boxed">
+                            {% for category in categories %}
+                                <li class="
+                                    {{ get_category_class(loop.index) }}
+                                    {{ 'active' if current_category and url_for('public.recipes_by_category', slug=current_category.slug) == url_for('public.recipes_by_category', slug=category.slug) }}
+                                ">
+                                    <a href="{{ url_for('public.recipes_by_category', slug=category.slug) }}"
+                                       title="{{ category.name }}"
+                                    >
+                                        <i class="icon {{ category.icon }}"></i> <span>{{ category.name }}</span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+						</ul>
+					</div>
+
+                    {% include '_widget_members.html' %}
+
+                    {#
+					<div class="widget">
+						<h3>Advertisment</h3>
+						<a href="#"><img src="{{ url_for('public.static', filename='images/advertisment.jpg') }}" alt="" /></a>
+					</div>
+                    #}
+				</aside>
+			</div>
+			<!--//right sidebar-->
+		</div>
+		<!--//wrap-->
+{% endblock %}

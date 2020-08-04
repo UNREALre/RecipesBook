@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block body %}
+		<!--wrap-->
+		<div class="wrap clearfix">
+            {% set pages = [{
+                'name': _('Мои рецепты'),
+                'url': url_for('public.profile', _anchor='recipes' )
+            }] %}
+            {% include '_breadcrumbs.html' %}
+
+			<!--row-->
+			<div class="row">
+				<header class="s-title">
+					<h1>{{ seo.title|safe }}</h1>
+				</header>
+
+				<!--content-->
+				<section class="content full-width">
+					<div class="submit_recipe container">
+
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+							<section>
+								<h2>{{ _('Общая информация') }}</h2>
+                                <div class="f-row">
+                                    {% if form.title.flags.required %}<span class="req">*</span>{% endif %}
+                                    {{ form.title(placeholder=form.title.label.text, value=recipe.title if recipe else '') }}
+                                    {% if form.title.errors %}{{ error.list(form.title.errors) }}{% endif %}
+                                </div>
+                                <div class="f-row">
+                                    <div class="third">
+                                        {% if form.category.flags.required %}<span class="req">*</span>{% endif %}
+                                        {% set default = form.category.process_data(recipe.category.id) if recipe else '' %}
+                                        {{ form.category(placeholder=form.category.label.text) }}
+                                        {% if form.category.errors %}{{ error.list(form.category.errors) }}{% endif %}
+                                    </div>
+                                    <div class="third">
+                                        {% if form.difficulty.flags.required %}<span class="req">*</span>{% endif %}
+                                        {% set default = form.difficulty.process_data(recipe.difficulty) if recipe else '' %}
+                                        {{ form.difficulty(placeholder=form.difficulty.label.text) }}
+                                        {% if form.difficulty.errors %}{{ error.list(form.difficulty.errors) }}{% endif %}
+                                    </div>
+                                    <div class="third">
+                                        {% if form.cooking_time.flags.required %}<span class="req">*</span>{% endif %}
+                                        {{ form.cooking_time(placeholder=form.cooking_time.label.text, value=recipe.cooking_time if recipe and recipe.cooking_time else '') }}
+                                        {% if form.cooking_time.errors %}{{ error.list(form.cooking_time.errors) }}{% endif %}
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section>
+								<h2>{{ _('Описание') }}</h2>
+								<div class="f-row">
+                                    {% if form.description.flags.required %}<span class="req">*</span>{% endif %}
+                                    {% set default = form.description.process_data(recipe.description if recipe else '') %}
+                                    {{ form.description(placeholder=form.description.label.text) }}
+                                    {% if form.description.errors %}{{ error.list(form.description.errors) }}{% endif %}
+								</div>
+							</section>
+
+							<section>
+								<h2>{{ _('Ингредиенты') }}</h2>
+                                {% if recipe %}
+                                    {% for item in recipe.ingredients %}
+                                        <div class="f-row ingredient">
+                                            <div class="large">
+                                                <input type="text" name="ingr[]" value="{{ item.ingredient.name }}" placeholder="{{ _('Ингредиент') }}" required />
+                                            </div>
+                                            <div class="small">
+                                                <input type="text" name="qty[]" value="{{ item.quantity }}" placeholder="{{ _('Количество') }}" required />
+                                            </div>
+                                            <button class="remove js--remove-ingr">-</button>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="f-row ingredient">
+                                        <div class="large">
+                                            <input type="text" name="ingr[]" placeholder="{{ _('Ингредиент') }}" required />
+                                        </div>
+                                        <div class="small">
+                                            <input type="text" name="qty[]" placeholder="{{ _('Количество') }}" required />
+                                        </div>
+                                        <button class="remove js--remove-ingr">-</button>
+                                    </div>
+                                {% endif %}
+                                <div class="js--dynamic-ingr-wrapper"></div>
+								<div class="f-row full">
+									<button class="add js--add-ingr">{{ _('Добавить ингредиент') }}</button>
+								</div>
+							</section>
+
+							<section>
+								<h2>{{ _('Фото') }}</h2>
+								<div class="f-row full">
+                                    {% if recipe and recipe.picture %}
+                                        <img src="{{ url_for('public.recipe_pic', file_id=recipe.picture._id) }}" alt="{{ recipe.title }}" class="manage-pic-preview" />
+                                        <br>
+                                        <div>
+                                            <label><input type="checkbox" name="delete_picture" value="1"> {{ _('Удалить фото') }}</label>
+                                        </div>
+                                        <br>
+                                    {% endif %}
+                                    {% if form.picture.flags.required %}<span class="req">*</span>{% endif %}
+                                    {{ form.picture(placeholder=form.picture.label.text) }}
+                                    {% if form.picture.errors %}{{ error.list(form.picture.errors) }}{% endif %}
+								</div>
+							</section>
+
+                            <div class="f-row">
+                                <label>
+                                    {% if recipe and not recipe.is_searchable %}
+                                        {{ form.is_searchable(value='y') }}
+                                    {% else %}
+                                        {{ form.is_searchable(value='y', checked='checked') }}
+                                    {% endif %}
+                                    {{ form.is_searchable.label.text }}
+                                </label>
+                            </div>
+
+                            <div class="f-row bwrap">
+                                {{ form.submit(class='button') }}
+                            </div>
+                        </form>
+                    </div>
+				</section>
+				<!--//content-->
+			</div>
+			<!--//row-->
+		</div>
+		<!--//wrap-->
+{% endblock %}

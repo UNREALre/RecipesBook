@@ -1,0 +1,20 @@
+appName: Recipes
+logLevel: 0 # DEBUG
+
+app:
+  secret: some1
+  worker: some2
+  email: mail@gmail.com
+
+db:
+  name: name
+  user: user
+  pass: pass
+  host: host
+  port: port
+
+mail:
+  host: host
+  port: port
+  user: user
+  pass: pass

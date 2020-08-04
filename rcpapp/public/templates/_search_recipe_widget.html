@@ -1,0 +1,23 @@
+<div class="one-fourth">
+    <div class="widget container">
+        <div class="textwrap">
+            <h3>{{ _('Поиск рецепта') }}</h3>
+            <p>{{ _('Всё, что вам надо сделать - ввести в строку поиска ниже название блюда, ингредиент или ключевое слово.') }} </p>
+            <p>{{ _('Мы постараемся найти наиболее подходящие рецепты для вас!') }}</p>
+        </div>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div class="f-row">
+                {% if form.keyword.flags.required %}<span class="req">*</span>{% endif %}
+                {{ form.keyword(placeholder=form.keyword.label.text) }}
+                {% if form.keyword.errors %}{{ error.list(form.keyword.errors) }}{% endif %}
+            </div>
+            <div class="f-row">
+                {{ form.category() }}
+            </div>
+            <div class="f-row bwrap">
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+</div>

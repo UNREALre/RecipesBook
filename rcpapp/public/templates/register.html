@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!--wrap-->
+    <div class="wrap clearfix">
+        <!--row-->
+        <div class="row">
+        <!--content-->
+            <section class="content center full-width">
+                <div class="modal-site container">
+                    <h3>{{ _('Регистрация') }}</h3>
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="f-row">
+                            {% if form.username.flags.required %}<span class="req">*</span>{% endif %}
+                            {{ form.username(placeholder=form.username.label.text) }}
+                            {% if form.username.errors %}{{ error.list(form.username.errors) }}{% endif %}
+                        </div>
+                        <div class="f-row">
+                            {% if form.password.flags.required %}<span class="req">*</span>{% endif %}
+                            {{ form.password(placeholder=form.password.label.text) }}
+                            {% if form.password.errors %}{{ error.list(form.password.errors) }}{% endif %}
+                        </div>
+                        <div class="f-row">
+                            {% if form.password2.flags.required %}<span class="req">*</span>{% endif %}
+                            {{ form.password2(placeholder=form.password2.label.text) }}
+                            {% if form.password2.errors %}{{ error.list(form.password2.errors) }}{% endif %}
+                        </div>
+                        <div class="f-row">
+                            {% if form.email.flags.required %}<span class="req">*</span>{% endif %}
+                            {{ form.email(placeholder=form.email.label.text) }}
+                            {% if form.email.errors %}{{ error.list(form.email.errors) }}{% endif %}
+                        </div>
+                        <div class="f-row bwrap">
+                            {{ form.submit(class='btn btn-primary') }}
+                        </div>
+                    </form>
+                    <p>{{ _('Уже регистрировались?') }} <a href="{{ url_for('public.login') }}">{{ _('Авторизуйтесь!') }}</a></p>
+                </div>
+            </section>
+            <!--//content-->
+        </div>
+        <!--//row-->
+    </div>
+    <!--//wrap-->
+{% endblock %}

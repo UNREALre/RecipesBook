@@ -1,0 +1,8 @@
+<div class="tab-content" id="{{ tab_name }}">
+    <div class="entries row">
+        {% for recipe in recipes %}
+            {% include '_recipe_preview.html' %}
+            {% if loop.index % 3 == 0 %}</div><div class="entries row">{% endif %}
+        {% endfor %}
+    </div>
+</div>
