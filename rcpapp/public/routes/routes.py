@@ -10,7 +10,7 @@ from bson import ObjectId
 from bson.errors import InvalidId
 from datetime import datetime
 
-from rcpapp.helper import css_js_update_time, get_recipe_ingredients, normalize_text
+from rcpapp.helper import css_js_update_time, get_recipe_ingredients, normalize_text, add_achievement
 from rcpapp.public.routes import auth
 from rcpapp.public.forms import RecipeForm, ContactForm, SearchForm
 from rcpapp.models import Recipe, Category, User, RecipeLike, Feedback, Ingredient
@@ -47,7 +47,7 @@ def index():
     recipes = Recipe.objects(is_searchable=True).order_by('-added')[:6]
 
     latest_user = User.objects().order_by('-id').first()
-    top_user = User.objects.get(id=top_recipe.user.id)
+    top_user = User.objects.get(id=top_recipe.user.id) if top_recipe else latest_user
 
     return render_template('index.html',
                            form=form,
@@ -90,6 +90,11 @@ def new_recipe():
     if form.validate_on_submit():
         try:
             user = User.objects.get(id=current_user.id)
+            if not user.recipes() or True:
+                add_achievement('первый рецепт', current_user.id)
+            elif len(user.recipes()) == 9:
+                add_achievement('десятый рецепт', current_user.id)
+
             ingredients = get_recipe_ingredients(request.form.getlist('ingr[]'), request.form.getlist('qty[]'))
             category = Category.objects.get(id=form.category.data)
 

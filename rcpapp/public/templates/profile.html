@@ -49,12 +49,22 @@
 
                             <div class="one-third">
                                 <ul class="boxed gold">
-                                    <li class="light"><a href="#" title="{{ _('Топовый рецепт') }}"><i class="icon icon-themeenergy_crown"></i> <span>{{ _('Топовый рецепт') }}</span></a></li>
-                                    <li class="medium"><a href="#" title="{{ _('В десятке лучших') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('В десятке лучших') }}</span></a></li>
-                                    <li class="dark"><a href="#" title="{{ _('Первый рацепт') }}"><i class="icon  icon-themeenergy_medal-first-place"></i> <span>{{ _('Первый рацепт') }}</span></a></li>
+                                    {% set user_top_recipe, top_position = current_user.get_top_recipe() %}
+                                    {% if top_position %}
+                                        <li class="light"><a href="#" title="{{ _('Топовый рецепт') }}"><i class="icon icon-themeenergy_crown"></i> <span>{{ _('Топовый рецепт') }}</span></a></li>
+                                    {% elif top_position and top_position <= 10 %}
+                                        <li class="medium"><a href="#" title="{{ _('В десятке лучших') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('В десятке лучших') }}</span></a></li>
+                                    {% endif %}
+                                    {% if current_user.achievements and current_user.achievements['первый рецепт'] %}
+                                        <li class="dark"><a href="#" title="{{ _('Первый рецепт') }}"><i class="icon  icon-themeenergy_medal-first-place"></i> <span>{{ _('Первый рецепт') }}</span></a></li>
+                                    {% endif %}
+                                    {% if current_user.achievements and current_user.achievements['первый рецепт'] %}
+                                        <li class="dark"><a href="#" title="{{ _('10+ рецептов') }}"><i class="icon icon-themeenergy_medal-8"></i> <span>{{ _('10+ рецептов') }}</span></a></li>
+                                    {% endif %}
+                                    {% if current_user.achievements and current_user.achievements['рецепт на главной'] %}
+                                        <li class="medium"><a href="#" title="{{ _('Рецепт на главной') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('Рецепт на главной') }}</span></a></li>
+                                    {% endif %}
 
-                                    <li class="dark"><a href="#" title="{{ _('10+ рецептов') }}"><i class="icon icon-themeenergy_medal-8"></i> <span>{{ _('10+ рецептов') }}</span></a></li>
-                                    <li class="medium"><a href="#" title="{{ _('Рецепт на главной') }}"><i class="icon icon-themeenergy_top-rankings"></i> <span>{{ _('Рецепт на главной') }}</span></a></li>
                                     {#
                                     <li class="dark"><a href="recipes.html" title="Fish"><i class="icon icon-themeenergy_cup2"></i> <span>Won a contest</span></a></li>
                                     <li class="light"><a href="recipes.html" title="Healthy"><i class="icon icon-themeenergy_share3"></i> <span>Shared a recipe</span></a></li>

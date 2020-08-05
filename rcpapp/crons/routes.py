@@ -3,8 +3,10 @@ from flask import (render_template, redirect, request, session, url_for, current
                    flash, make_response, abort, jsonify)
 from random import randrange
 from mongoengine import DoesNotExist
+
 from rcpapp.crons import blueprint
 from rcpapp.models import Recipe, User
+from rcpapp.helper import add_achievement
 
 
 @blueprint.route('/set-daily-recipe')
@@ -27,6 +29,8 @@ def set_daily_recipe():
         Recipe.objects().update(is_featured=False)
         new_featured.is_featured = True
         new_featured.save()
+
+        add_achievement('рецепт на главной', new_featured.user.id)
 
         return jsonify({"data": "ok"})
 

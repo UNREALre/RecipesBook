@@ -20,6 +20,16 @@ class User(UserMixin, db.Document):
     email = db.EmailField(required=True, unique=True)
     telegram_id = db.StringField()
     is_featured = db.BooleanField(defaul=False)
+    achievement_list = db.ListField(db.StringField(max_length=100))
+
+    @property
+    def achievements(self):
+        return [achievement for achievement in self.achievement_list]
+
+    @achievements.setter
+    def achievements(self, value):
+        if not self.achievements.count(value):
+            self.achievement_list.append(value)
 
     def __repr__(self):
         return '<User: {}>'.format(self.username)
@@ -35,6 +45,29 @@ class User(UserMixin, db.Document):
 
     def favourites(self):
         return Recipe.objects(likes__user=self.id)
+
+    def get_top_recipe(self):
+        """Возвращает наиболее залайканный рецепт и его позицию среди прочих рецептов сайта"""
+
+        top_10 = Recipe.objects.aggregate([
+            {
+                '$project': {
+                    'user': '$user',
+                    'likes_num': {'$size': '$likes'}
+                }
+            },
+            {
+                '$sort': {'likes_num': -1}
+            },
+            {
+                '$limit': 10
+            }
+        ])
+        for idx, recipe in enumerate(top_10):
+            if recipe['user'] == self.id and recipe['likes_num']:
+                return recipe['_id'], idx+1
+
+        return None, 0
 
 
 @login.user_loader
