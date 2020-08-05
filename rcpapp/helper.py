@@ -72,7 +72,6 @@ def add_achievement(name, user_id):
     try:
         user = User.objects.get(id=user_id)
         user.achievements = name
-        print(user.achievements)
         user.save()
         return True
     except:
