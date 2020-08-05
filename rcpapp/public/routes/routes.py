@@ -59,9 +59,9 @@ def index():
                            featured_recipe=featured_recipe,
                            categories=categories,
                            seo={
-                               'title': _l('Мой профиль'),
-                               'description': _l(''),
-                               'keywords': _l('')
+                               'title': _l('Рецептуарий - ваш персональный сборник рецептов!'),
+                               'description': _l('Рецептуарий - ваш персональный сборник рецептов!'),
+                               'keywords': _l('Рецептуарий - ваш персональный сборник рецептов!')
                            },
                            times=times)
 
