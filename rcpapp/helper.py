@@ -30,13 +30,14 @@ def get_recipe_ingredients(rcp_ingredients, rcp_ingredients_qty):
 
     ingredients = []
     for i in range(len(rcp_ingredients)):
+        rcp_ingredients[i] = rcp_ingredients[i].lower().strip()
         ingredient = Ingredient.objects(name=rcp_ingredients[i]).first()
         if not ingredient:
             try:
                 normalized = [token for token in tokenize(rcp_ingredients[i])]
-                ingredient = Ingredient(name=rcp_ingredients[i].strip(), normalized_name=' '.join(normalized))
+                ingredient = Ingredient(name=rcp_ingredients[i], normalized_name=' '.join(normalized))
             except:
-                ingredient = Ingredient(name=rcp_ingredients[i].strip(), normalized_name='')
+                ingredient = Ingredient(name=rcp_ingredients[i], normalized_name='')
             finally:
                 ingredient.save()
 
