@@ -62,6 +62,8 @@ def tokenize(text):
     Возвращает генератор.
     """
 
+    nltk.download('punkt')
+
     stem = nltk.stem.SnowballStemmer('russian')
     text = text.lower()
 
