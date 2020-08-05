@@ -98,7 +98,7 @@ def new_recipe():
             ingredients = get_recipe_ingredients(request.form.getlist('ingr[]'), request.form.getlist('qty[]'))
             category = Category.objects.get(id=form.category.data)
 
-            recipe = Recipe(user=user, category=category, title=form.title.data,
+            recipe = Recipe(user=user, category=category, difficulty=form.difficulty.data, title=form.title.data,
                             description=form.description.data, ingredients=ingredients,
                             normalized_description=normalize_text(form.description.data),
                             is_searchable=form.is_searchable.data)
