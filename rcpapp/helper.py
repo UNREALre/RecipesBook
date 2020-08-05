@@ -33,7 +33,11 @@ def get_recipe_ingredients(rcp_ingredients, rcp_ingredients_qty):
         try:
             ingredient = Ingredient.objects.get(name=rcp_ingredients[i])
         except DoesNotExist:
-            normalized = [token for token in tokenize(rcp_ingredients[i])]
+            try:
+                normalized = [token for token in tokenize(rcp_ingredients[i])]
+            finally:
+                normalized = []
+
             ingredient = Ingredient(name=rcp_ingredients[i].strip(), normalized_name=' '.join(normalized))
             ingredient.save()
         finally:
