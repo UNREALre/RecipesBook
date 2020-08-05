@@ -41,7 +41,7 @@ class User(UserMixin, db.Document):
         return check_password_hash(self.password_hash, password)
 
     def recipes(self):
-        return Recipe.objects(user=self).order_by('-added', '-updated')
+        return Recipe.objects(user=self).order_by('-added')
 
     def favourites(self):
         return Recipe.objects(likes__user=self.id)
