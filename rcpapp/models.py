@@ -78,7 +78,7 @@ def load_user(user_id):
 class PassRecovery(db.Document):
     user = db.ReferenceField(User, required=True)
     recovery_hash = db.StringField(max_length=128, required=True)
-    expire = db.DateTimeField(default=datetime.utcnow + timedelta(minutes=15))
+    expire = db.DateTimeField(default=datetime.utcnow() + timedelta(minutes=15))
 
     def __repr__(self):
         return '<PassRecovery: for {} expire {}>'.format(self.user, self.expire)
