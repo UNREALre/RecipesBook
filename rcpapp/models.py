@@ -148,7 +148,7 @@ class Recipe(db.Document):
     likes = db.ListField(EmbeddedDocumentField(RecipeLike), required=False)
     is_searchable = db.BooleanField(default=True)
     is_featured = db.BooleanField(default=False)
-    added = db.DateTimeField(default=datetime.utcnow())
+    added = db.DateTimeField(default=datetime.utcnow)
     updated = db.DateTimeField()
 
     def __repr__(self):
